@@ -9,6 +9,9 @@ function App() {
         test.initScene(); 
         test.animate(); 
         const scale = 32;
+        const group = new THREE.Group();
+        test.scene.add(group);
+
         const geometry = new THREE.BoxGeometry(1, 1, 1);
 
         const material = new THREE.ShaderMaterial({
@@ -17,13 +20,18 @@ function App() {
         });
 
         const mesh = new THREE.Mesh(geometry, material);
-        mesh.scale.x = scale;
-        mesh.scale.y = scale;
-        mesh.scale.z = scale;
-        mesh.rotateX(Math.PI / 8);
-        mesh.rotateY(Math.PI / 4);
+        group.scale.x = scale;
+        group.scale.y = scale;
+        group.scale.z = scale;
+        group.rotateX(Math.PI / 8);
+        group.rotateY(Math.PI / 4);
 
-        test.scene.add(mesh);
+        group.add(mesh);
+
+        const lineEdges = new THREE.EdgesGeometry(mesh.geometry);
+        const lineMaterial = new THREE.LineBasicMaterial({ color: '#000000' });
+        const lineMesh = new THREE.LineSegments(lineEdges, lineMaterial);
+        group.add(lineMesh);
 
     }, []); 
 
